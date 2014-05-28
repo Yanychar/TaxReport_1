@@ -470,6 +470,7 @@ public class ContractsListComponent extends VerticalLayout implements ContractsM
 			if ( !contractsTable.containsId( future )) {
 				future = contractsTable.firstItemId();
 			} 
+			
 			selectItem( future );
 			
 		}
