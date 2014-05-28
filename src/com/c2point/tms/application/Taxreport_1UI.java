@@ -1,7 +1,11 @@
 package com.c2point.tms.application;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.c2point.tms.entity.SessionData;
 import com.c2point.tms.testing.TestData;
+import com.c2point.tms.web.ui.MainView;
 import com.c2point.tms.web.ui.taxreports.FullReportView;
 import com.c2point.tms.web.ui.taxreports.AllReportsView;
 import com.vaadin.annotations.Theme;
@@ -14,25 +18,28 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("taxreport_1")
 public class Taxreport_1UI extends UI {
 
+	private static Logger logger = LogManager.getLogger( Taxreport_1UI.class.getName());
+
 	private SessionData sessionData;
 	
-	VerticalLayout defaultLayout = new VerticalLayout();
+	private MainView mainView;
+	
 	
 	@Override
 	protected void init(VaadinRequest request) {
 
 		sessionData = new SessionData();
 		
-		TestData.init();
+		TestData.initOrganisationAndUser();
 		
-		
-		defaultLayout = new VerticalLayout();
-		defaultLayout.setMargin(true);
-		setContent(defaultLayout);
+		if ( mainView == null ) {
+			
+			mainView = new MainView();
+			mainView.initWindow();
+			
+		}
 
-//		startWizard();
-//		startSitesView();
-		startReportsView();
+		setContent( mainView );
 			
 	}
 
@@ -77,6 +84,8 @@ public class Taxreport_1UI extends UI {
 	
 	}
 */
+    
+/*    
 	private void startSitesView() {
 
 		mainLayout = new FullReportView();
@@ -90,19 +99,24 @@ public class Taxreport_1UI extends UI {
 	
 	private void startReportsView() {
 
-		
-		mainLayout = new VerticalLayout();
-        mainLayout.setSizeFull();
+		mainLayout = new AllReportsView( TestData.getTestOrganisation());
+
+		mainLayout.setSizeFull();
         mainLayout.setMargin( true );
         setContent( mainLayout );
 		
-        AllReportsView view = new AllReportsView();
-        view.setSizeFull();
-        		
-        mainLayout.addComponent( view );
-        mainLayout.setComponentAlignment( view, Alignment.TOP_CENTER );
-		
 	}
+*/
+	public String getResourceStr( String key ) {
+		
+		try {
+			return this.getSessionData().getBundle().getString( key );
+		} catch (Exception e) {
+			logger.error(  "Could not find string resource '" + key + "'" );
+		}
+		return "";
+	}
+
 	
 }
 

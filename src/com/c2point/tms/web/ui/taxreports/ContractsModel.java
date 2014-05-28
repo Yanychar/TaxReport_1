@@ -140,5 +140,9 @@ public class ContractsModel {
 		listenerList.add( ContractsModelListener.class, listener );
 	}
 	
+	public void deleteListener( ContractsModelListener listener ) {
+		listenerList.remove( ContractsModelListener.class, listener );
+	}
+	
 	
 }

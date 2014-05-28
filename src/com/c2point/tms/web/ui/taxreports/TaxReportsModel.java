@@ -10,12 +10,15 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
 import com.c2point.tms.application.Taxreport_1UI;
+import com.c2point.tms.datalayer.ShowType;
+import com.c2point.tms.datalayer.OrganisationFacade;
 import com.c2point.tms.datalayer.TaxReportsFacade;
 import com.c2point.tms.datalayer.tax.InMemoryTaxReportInfoImpl;
 import com.c2point.tms.datalayer.tax.TaxReportInfoIF;
 import com.c2point.tms.entity.Organisation;
 import com.c2point.tms.entity.TmsUser;
 import com.c2point.tms.entity.taxreport.IDType;
+import com.c2point.tms.web.ui.listeners.OrgModelListener;
 import com.c2point.tms.entity.taxreport.ReportStatusType;
 import com.c2point.tms.entity.taxreport.ReportType;
 import com.c2point.tms.entity.taxreport.TaxReport;
@@ -28,22 +31,73 @@ public class TaxReportsModel {
 
 	protected EventListenerList		listenerList = new EventListenerList(); 
 	
-	private Organisation			mainOrg;
+	private Organisation				fillerOrg;
+	private Organisation				selectedOrg;
+	private Collection<Organisation>	orgs;
+	
 	private Collection<TaxReport> 	reports;
 
 	private TaxReportInfoIF 		trInfo = new InMemoryTaxReportInfoImpl();
 	
-	public TaxReportsModel() {
-		// TODO Auto-generated constructor stub
+	public TaxReportsModel( Organisation filler ) {
+		
+		this( filler, filler );
+	}
+	
+	public TaxReportsModel( Organisation filler, Organisation org ) {
+
+		this( filler, org, false );
+	}
+	
+	public TaxReportsModel( Organisation filler, Organisation org, boolean showAll ) {
+
+		this.fillerOrg = filler;
+		
+		if ( showAll ) {
+			
+			initOrgs();
+			
+		} else {
+			this.orgs = null;
+		}
+		selectOrganisation( org );
+
+		
+	}
+
+	public boolean selectOrganisation( Organisation org ) {
+		
+		boolean bRes = false;
+		
+		if ( orgs != null && orgs.contains( org )
+			||	orgs == null
+		) {
+			
+			this.selectedOrg = org;
+			
+			initReports();
+			
+			fireOrgSelected( this.selectedOrg );
+			
+			bRes = true;
+			
+		}
+		
+		return bRes;
+	}
+	
+	public Organisation getSelectedOrganisation() {
+		
+		return this.selectedOrg;
 	}
 	
 	public boolean initReports() {
 
 		reports = new ArrayList<TaxReport>();
 
-		testFillReportsList();
+//		testFillReportsList();
 		
-		getFilerInfo();
+//		getFilerInfo();
 //		
 		Collection<TaxReport> cl = TaxReportsFacade.getInstance().list( (( Taxreport_1UI )UI.getCurrent()).getSessionData().getUser().getOrganisation()); 
 		
@@ -53,12 +107,21 @@ public class TaxReportsModel {
 		return true;
 	}
 	
-	
-	public Organisation getMainOrg() {
-		return this.mainOrg;
+	private void initOrgs() {
+
+		if ( this.orgs != null && this.orgs.size() > 0 ) {
+			this.orgs.clear();
+		}
+
+		this.orgs = OrganisationFacade.getInstance().getOrganisations( ShowType.CURRENT );
+
 	}
-	public void setMainOrg( Organisation mainOrg ) {
-		this.mainOrg = mainOrg;
+	
+	public Organisation getFiller() {
+		return this.fillerOrg;
+	}
+	public void setFiller( Organisation filler ) {
+		this.fillerOrg = filler;
 	}
 	
 	public Collection<TaxReport> getReports() {
@@ -123,6 +186,22 @@ public class TaxReportsModel {
 	}
 	
 	
+	private void fireOrgSelected( Organisation org ) {
+		
+		Object[] listeners = listenerList.getListenerList();
+
+	    for ( int i = listeners.length-2; i >= 0; i -= 2) {
+	    	if ( listeners[ i ] == OrgModelListener.class ) {
+	    		(( OrgModelListener )listeners[ i + 1 ] ).selected( org );
+	         }
+	     }
+
+	}
+	
+	public void addListener( OrgModelListener listener ) {
+		listenerList.add( OrgModelListener.class, listener );
+	}
+	
 	
 	
 	/*
@@ -132,80 +211,4 @@ public class TaxReportsModel {
 	public TaxReportInfoIF getTaxReportInfo() { return trInfo; }
 	
 	
-	
-	
-	
-/*
- * 
- *    The rest is procedures for quick testing
- * 	
- */
-	public void getFilerInfo() {
-		
-		// Fill Filer
-		Organisation org = (( Taxreport_1UI )UI.getCurrent()).getSessionData().getUser().getOrganisation();
-
-		this.mainOrg = org;
-		
-	}
-	
-	public void testFillReportsList() {
-
-		Organisation org = new Organisation( "00001", "Rakennus Nordic Oy" );
-		org.setAddress( "Mannerheimintie 121, 00100 Helsinki" );
-		org.setTunnus( "1234656-7" );
-		org.setPhone( "0401234567" );
-		org.setEmail( "test.email@email.com" );
-
-		org.setIdType( IDType.Vat );
-		org.setCountryCode( "FI" );
-		
-		TmsUser user = new TmsUser( "0002", "Peter", "Volanchunas" );
-		user.setOrganisation( org );
-		
-		
-		(( Taxreport_1UI )UI.getCurrent()).getSessionData().setUser( user );
-
-		String [][] reportsData = {
-				{ "1", "2014", ReportType.Employees.toString(), ReportStatusType.Basic.toString() },
-				{ "1", "2014", ReportType.Contracts.toString(), ReportStatusType.Basic.toString() },
-				{ "2", "2014", ReportType.Employees.toString(), ReportStatusType.Basic.toString() },
-				{ "2", "2014", ReportType.Employees.toString(), ReportStatusType.Correction.toString() },
-				{ "2", "2014", ReportType.Contracts.toString(), ReportStatusType.Basic.toString() },
-				{ "3", "2014", ReportType.Employees.toString(), ReportStatusType.Basic.toString() },
-				{ "3", "2014", ReportType.Contracts.toString(), ReportStatusType.Basic.toString() },
-				
-		};
-		
-		TaxReport report;
-		
-		if ( reports != null ) {
-			reports.clear();
-		} else {
-			reports = new ArrayList<TaxReport>();
-		}
-		
-		int counter = 1;
-		for ( String [] reportData : reportsData  ) {
-			
-			report = new TaxReport( ReportType.valueOf( reportData[2] ));
-			report.setId( counter++ );
-			report.setDate( new LocalDate( Integer.parseInt( reportData[1] ), Integer.parseInt( reportData[0] ), 1 ));
-			report.setStatus( ReportStatusType.valueOf( reportData[3] ));
-			
-			reports.add( report );
-		}
-		
-	}
-
-	public static void main(String[] args) {
-
-		TaxReportsModel model = new TaxReportsModel();
-		
-		model.testFillReportsList();
-		
-		for ( TaxReport report : model.getReports()) {
-			logger.debug( report );
-		}
-	}
 }

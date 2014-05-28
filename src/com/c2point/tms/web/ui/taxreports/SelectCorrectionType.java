@@ -103,7 +103,7 @@ public class SelectCorrectionType extends Window {
 		
 		infoLabel.setValue(
 //				  "<p>" + "Filer Information" + "</p>"		
-				  "<h3><u>" + model.getMainOrg().getName() + "</u></h3>" + "<br>"  //model.getFiler().getName() ));
+				  "<h3><u>" + model.getSelectedOrganisation().getName() + "</u></h3>" + "<br>"  //model.getFiler().getName() ));
 				+ "Date: " + "<b>" + report.getDate().monthOfYear().getAsText() + ", " + report.getDate().year().getAsText() + "</b>" + "<br>"
 				+ "Type: " + "<b>" + report.getType() + "</b>" + "<br>" 
 		

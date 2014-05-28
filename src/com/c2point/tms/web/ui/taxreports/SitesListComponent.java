@@ -9,6 +9,7 @@ import com.c2point.tms.web.ui.ModType;
 import com.c2point.tms.web.ui.listeners.SitesModelListener;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.IndexedContainer;
@@ -32,6 +33,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.CloseListener;
 
 public class SitesListComponent extends VerticalLayout implements SitesModelListener {
 
@@ -50,8 +53,7 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 	private TextField searchText;
 
 	private boolean processed = false;
-	private long selectedID = -1;
-	
+	private Long selectedID = null;
 	
 	public SitesListComponent( SitesModel model ) {
 		super();
@@ -143,22 +145,37 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 
 			public void itemClick(ItemClickEvent event) {
 
-            	if ( selectedID == ( Long )event.getItemId() && !processed ) {
-            		processed = true;
+				if ( logger.isDebugEnabled()) {
+					logger.debug( "event.getItemId() class: " + event.getItemId().getClass().getSimpleName() + " event.getItemId(): " + event.getItemId() );
+					logger.debug( "selectedID class: " + selectedID.getClass().getSimpleName() + " selectedID: " + selectedID );
+				}
+				
+				
+            	if ( selectedID != null && selectedID.equals( event.getItemId())) {
+            		
             		if ( logger.isDebugEnabled()) logger.debug( "Selection was NOT changed" );
-            		
-            		SiteEditDlg dlg = new SiteEditDlg( model.getSelectedSite(), model, ModType.Edit );
-            		
-            		UI.getCurrent().addWindow( dlg );
-            		dlg.center();
-            		
-            	} else {
-            		processed = false;
-            		if ( logger.isDebugEnabled()) logger.debug( "Selection was changed" );
-            		
-            	} 
-            	
-            	
+
+//            		if ( processed == false ) {
+            			
+            			processed = true;
+            			
+	            		SiteEditDlg dlg = new SiteEditDlg( model.getSelectedSite(), model, ModType.Edit );
+	            		
+	            		dlg.addCloseListener( new CloseListener() {
+							private static final long serialVersionUID = 1L;
+
+	                        public void windowClose( CloseEvent e ) {
+	                    		if ( logger.isDebugEnabled()) logger.debug( "SiteEditDlg will be closed!" );
+	                			processed = false;
+	                    		
+	                        }
+	                    });	            		
+	            		
+	            		UI.getCurrent().addWindow( dlg );
+	            		dlg.center();
+	            		
+//	            	} 
+            	}
             }
         });
 
@@ -176,10 +193,20 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 	        	}
 				
 				// Store selected item ID.ID assigned during Item creation
+				
+				
         		processed = false;
+				
         		selectedID = getSelectId();
-        		if ( selectedID > 0 ) {
+
+        		if ( selectedID != null && logger.isDebugEnabled()) {
+					logger.debug( "ID class: " + selectedID.getClass().getSimpleName() + " Value: " + selectedID );
+				}
+        		
+        		if ( selectedID >= 0 ) {
+        			
         			model.setSelectedSite(( Site ) sitesTable.getItem( selectedID ).getItemProperty( "data" ).getValue());
+        			
         		} else {
         			model.setSelectedSite( null );
         		}
@@ -243,17 +270,17 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 		
 	}
 
+	private long getSelectId() {
+		
+		
+		return ( sitesTable.getValue() != null ? ( Long )sitesTable.getValue() : -1 );
+	}
+	
 	public void selectItem( Site site ) {
 		
 		if ( site != null ) {
 			selectItem( site.getId());
 		}
-	}
-	
-	private long getSelectId() {
-		
-		
-		return ( sitesTable.getValue() != null ? ( Long )sitesTable.getValue() : -1 );
 	}
 	
 	public void selectItem( Object siteId ) {
@@ -282,7 +309,7 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 			for ( Site site : model.getSites()) {
 				if ( site != null ) {
 					
-					addOrUpdateItem( site );
+					addOrUpdateItem( site, false );
 					
 				}
 			}
@@ -311,6 +338,10 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 	}
 	
 	private  void addOrUpdateItem( Site site ) {
+		addOrUpdateItem( site, false );
+	}
+	
+	private  void addOrUpdateItem( Site site, boolean sortAfter ) {
 
 		Item item = sitesTable.getItem( site.getId());
 		
@@ -387,7 +418,9 @@ public class SitesListComponent extends VerticalLayout implements SitesModelList
 
         item.getItemProperty( "button" ).setValue( delButton );//buttonsSet );
 
-		sitesTable.sort();
+        if ( sortAfter ) {
+        	sitesTable.sort();
+        }
         
 	}
 	

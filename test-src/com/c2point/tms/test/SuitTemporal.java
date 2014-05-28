@@ -15,8 +15,9 @@ import org.apache.logging.log4j.Logger;
 //	TestSimpleTests.class,
 //	TestContact.class,
 //	TestContactor.class,
-//	TestReportXML.class,
-	TestDBOrg.class,
+	TestReportXML.class,
+	TestReportDB.class,
+//	TestDBOrg.class,
 })
 
 public class SuitTemporal {

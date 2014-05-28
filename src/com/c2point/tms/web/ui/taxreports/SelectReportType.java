@@ -152,7 +152,7 @@ public class SelectReportType extends Window {
 		
 		// Just button
 		Button okButton = new Button( "OK" );
-//		Button cancelButton = new Button( "Cancel" );
+		Button cancelButton = new Button( "Cancel" );
 		
 		okButton.addClickListener( new ClickListener() {
 
@@ -180,10 +180,36 @@ public class SelectReportType extends Window {
 			
 		});
 		
+		cancelButton.addClickListener( new ClickListener() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick( ClickEvent event) {
+				
+				SelectReportType.this.confirmed = false;
+
+				if ( SelectReportType.this.isEnabled()) {
+
+					SelectReportType.this.setEnabled( false );
+					
+                    if ( SelectReportType.this.listener != null ) {
+
+                    	if ( logger.isDebugEnabled()) logger.debug( "OnClose listener will be call" );
+                    	SelectReportType.this.listener.onClose( SelectReportType.this );
+                    	
+                    }
+
+					SelectReportType.this.close();
+				}
+			}
+			
+		});
+		
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSizeFull();
 		hl.addComponent( okButton );
-//		hl.addComponent( cancelButton );
+		hl.addComponent( cancelButton );
 		
 		vl.addComponent( calendarFields );
 		vl.addComponent( optionGroup );

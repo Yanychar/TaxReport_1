@@ -87,4 +87,45 @@ public class TaxReportsFacade {
 		return report;
 	}
 	
+	public boolean updateReport( TaxReport report ) {
+		
+		if ( report == null )
+			throw new IllegalArgumentException( "Valid TaxReport cannot be null!" );
+		
+		// Find Organisation
+		TaxReport tmpReport = DataFacade.getInstance().find( TaxReport.class, report.getId());
+		
+		if ( tmpReport == null ) {
+			
+			// No such TaxReport!!!
+			logger.error( "TaxReport " + report + " was not found during TaxReport update!" );
+			return false;
+		}
+		
+		// update Organisation
+		tmpReport.update( report );
+		
+		// Store Organisation
+		
+		try {
+//			report = DataFacade.getInstance().merge( oldReport );
+			tmpReport = DataFacade.getInstance().merge( tmpReport );
+		} catch ( Exception e ) {
+//			logger.error( "Failed to update TaxReport: " + oldReport );
+			logger.error( "Failed to update TaxReport: " + report );
+			logger.error( e );
+			return false;
+		}
+		
+
+		if ( logger.isDebugEnabled() && report != null ) 
+			logger.debug( "TaxReport has been updated: " + report );
+		
+		
+		return tmpReport != null;
+		
+	}
+	
+
+
 }

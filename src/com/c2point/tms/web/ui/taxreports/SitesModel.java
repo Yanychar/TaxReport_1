@@ -9,10 +9,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
+import com.c2point.tms.datalayer.TaxReportsFacade;
 import com.c2point.tms.entity.Organisation;
 import com.c2point.tms.entity.taxreport.Address;
 import com.c2point.tms.entity.taxreport.Contact;
 import com.c2point.tms.entity.taxreport.Site;
+import com.c2point.tms.entity.taxreport.TaxReport;
 import com.c2point.tms.web.ui.listeners.SitesModelListener;
 
 public class SitesModel {
@@ -22,12 +24,14 @@ public class SitesModel {
 	protected EventListenerList		listenerList = new EventListenerList(); 
 	
 	private Organisation			mainOrg;
-	private Collection<Site> 		sites;
+	private	TaxReport				report;
+
+//	private Collection<Site> 		sites;
+	
 	private Site 					selectedSite;
 	private ContractsModel			activeContractsModel;
 
-	private LocalDate				date;
-	
+/*	
 	public SitesModel() {
 		this( null );
 	}
@@ -40,7 +44,18 @@ public class SitesModel {
 			setDate( LocalDate.now());
 		}
 	}
+*/
 	
+	public SitesModel( TaxReport report ) {
+
+		this.report = report;
+//		this.sites = new ArrayList<Site>( report.getSites());
+
+		
+	}
+	
+	
+/*	
 	public boolean initReports() {
 
 		sites = new ArrayList<Site>();
@@ -53,7 +68,7 @@ public class SitesModel {
 		
 		return true;
 	}
-	
+*/	
 	
 	public Organisation getMainOrg() {
 		return this.mainOrg;
@@ -62,8 +77,7 @@ public class SitesModel {
 		this.mainOrg = mainOrg;
 	}
 	
-	public LocalDate getDate() { return this.date; }
-	public void setDate( LocalDate date ) { this.date = date; }
+	public TaxReport getReport() { return this.report; }
 
 	public Site getSelectedSite() { return this.selectedSite; }
 	public void setSelectedSite( Site site ) {
@@ -77,7 +91,10 @@ public class SitesModel {
 				) {
 			this.selectedSite = site;
 		
-			activeContractsModel = new ContractsModel( this.selectedSite );
+			activeContractsModel = ( this.selectedSite != null
+										? new ContractsModel( this.selectedSite )
+										: null 
+									);
 			
 			fireSiteSelected( this.selectedSite );
 
@@ -86,12 +103,9 @@ public class SitesModel {
 	}
 	
 	public Collection<Site> getSites() {
-		return sites;
+		return this.report.getSites();
 	}
-	public void setSites( Collection<Site> sites ) {
-		this.sites = sites;
-	}
-	
+
 	public Site addSite( String siteVeroID, String siteNumber,
 								Address address, Contact contact ) {
 		
@@ -108,9 +122,12 @@ public class SitesModel {
 
 		if ( site != null ) {
 
-			sites.add( site );
+			this.report.addSite( site );
 			
-			fireSiteAdded( site );
+			if ( TaxReportsFacade.getInstance().updateReport( this.report )) {
+				
+				fireSiteAdded( site );
+			}
 		}
 		
 		return site;
@@ -120,12 +137,16 @@ public class SitesModel {
 
 		boolean bRes = false;
 		try {
-			bRes = sites.remove( site );
+			bRes = getSites().remove( site );
+
+			if ( TaxReportsFacade.getInstance().updateReport( this.report )) {
 			
-			fireSiteDeleted( site );
+				fireSiteDeleted( site );
+			
+			}
 			
 		} catch ( Exception e ) {
-			logger.error( "Cannot delete Site:" + site );
+			logger.error( "Cannot delete Site:" + site.getName() + "\n" + e );
 		}
 		
 		return bRes;
@@ -134,19 +155,14 @@ public class SitesModel {
 	public boolean modifySite( Site site ) {
 
 		boolean bRes = false;
-/*		
-		for ( Site tmpSite : sites ) {
-			
-			if ( tmpSite.getId() == site.getId()) {
 
-				fireSiteEdited( site );
-				
-			}
-		}
-*/
 		if ( site != null ) {
 			
-			fireSiteEdited( site );
+			if ( TaxReportsFacade.getInstance().updateReport( this.report )) {
+			
+				fireSiteEdited( site );
+			
+			}
 			
 			bRes = true;
 			
@@ -213,6 +229,17 @@ public class SitesModel {
 		return activeContractsModel;
 	}
 	
-	
+/*
+	public TaxReport updateReport( TaxReport report ) {
+		
+		if ( TaxReportsFacade.getInstance().updateReport( report )) {
+			
+			fireReportEdited( report );
+		}
+		
+		return report;
+	}
+*/
+
 
 }

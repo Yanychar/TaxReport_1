@@ -70,7 +70,8 @@ public class TestContactor extends TmsTestCase {
 		assertNotNull( "Wrong value", contractor.getId());
 		assertNull( "Should be null", contractor.getCode());
 		assertNull( "Should be null", contractor.getForeignBusinessID());
-		assertNull( "Should be null", contractor.getIdType());
+		assertNotNull( "Should be null", contractor.getIdType());
+		assertEquals( "Wrong value", "Vat", contractor.getIdType().toString());
 		assertNull( "Should be null", contractor.getCountryCode());
 		assertNull( "Should be null", contractor.getContact());
 		

@@ -10,12 +10,10 @@
 	</Appenders>
 	<Loggers>
 
-		<Logger name="com.c2point.tms" level="debug" additivity="false">
-			<AppenderRef ref="Console" />
-		</Logger>
-
-		<!-- <Logger name="com.c2point.tms.web.ui.geo" level="debug" additivity="false"> 
-			<AppenderRef ref="Console"/> </Logger> -->
+		<Logger name="com.c2point.tms" level="debug" additivity="false"> <AppenderRef ref="Console" /> </Logger>
+	    <Logger name="com.c2point.tms.web.ui.taxreports.AllReportsView" level="debug" additivity="false"> <AppenderRef ref="Console" /> </Logger>
+		<Logger name="com.c2point.tms.web.ui.taxreports.FullReportView" level="debug" additivity="false"> <AppenderRef ref="Console" /> </Logger>
+		
 
 		<Root level="error">
 			<AppenderRef ref="Console" />

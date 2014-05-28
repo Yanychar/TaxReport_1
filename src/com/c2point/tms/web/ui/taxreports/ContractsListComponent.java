@@ -9,14 +9,12 @@ import com.c2point.tms.entity.taxreport.Site;
 import com.c2point.tms.web.ui.ModType;
 import com.c2point.tms.web.ui.listeners.ContractsModelListener;
 import com.c2point.tms.web.ui.listeners.SitesModelListener;
-import com.c2point.tms.web.ui.old_tmp.ContractEditDlg;
 import com.c2point.tms.web.ui.subcontract.ContractViewDlg;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
@@ -260,10 +258,23 @@ public class ContractsListComponent extends VerticalLayout implements ContractsM
 
 	public void setModel( SitesModel model ) {
 
-		this.model = model;
+		if ( this.model != model ) {
+			
+			if ( this.model != null && this.model.getContractorsModel() != null ) {
+				this.model.getContractorsModel().deleteListener( this );
+			}
+			
+			this.model = model;
+			
+			if ( this.model != null && this.model.getContractorsModel() != null ) {
+				
+				this.model.getContractorsModel().deleteListener( this );
+				this.model.getContractorsModel().addListener( this );
+			}
+		}
+		
 		
 		dataFromModel();
-
 		
 	}
 
@@ -456,8 +467,10 @@ public class ContractsListComponent extends VerticalLayout implements ContractsM
 
 			contractsTable.removeItem( contract.getId());
 
-			if ( future != null )
-				selectItem( future );
+			if ( !contractsTable.containsId( future )) {
+				future = contractsTable.firstItemId();
+			} 
+			selectItem( future );
 			
 		}
 		
@@ -496,7 +509,10 @@ public class ContractsListComponent extends VerticalLayout implements ContractsM
 
 	@Override
 	public void edited(Site site) {
-		// TODO Auto-generated method stub
+
+		if ( logger.isDebugEnabled()) logger.debug( "SitesTable received 'Site Edited' event" );
+
+//		addOrUpdateItem( site );
 		
 	}
 
@@ -511,7 +527,7 @@ public class ContractsListComponent extends VerticalLayout implements ContractsM
 
 		dataFromModel();
 
-		if ( this.model.getContractorsModel() != null ) {
+		if ( this.model != null && this.model.getContractorsModel() != null ) {
 			
 			this.model.getContractorsModel().addListener( this );
 		}

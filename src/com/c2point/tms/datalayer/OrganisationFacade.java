@@ -1,5 +1,8 @@
 package com.c2point.tms.datalayer;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -82,5 +85,28 @@ public class OrganisationFacade {
 		return org;
 	}
 
+	public Collection<Organisation> getOrganisations() {
+		return getOrganisations( ShowType.CURRENT );
+	}
+
+	public Collection<Organisation> getOrganisations( ShowType type ) {
+		Collection<Organisation> lst = DataFacade.getInstance().list( Organisation.class );
+		
+		Organisation org;
+		for ( Iterator<Organisation> it = lst.iterator(); it.hasNext(); ) {
+			org = it.next();
+			if ( org != null ) {
+				if ( type == ShowType.CURRENT && org.isDeleted()
+						||
+					 type == ShowType.DELETED && !org.isDeleted()) {
+		            it.remove();
+				}
+			}
+		}
+		
+		return lst;
+	}
+
+	
 }
 
