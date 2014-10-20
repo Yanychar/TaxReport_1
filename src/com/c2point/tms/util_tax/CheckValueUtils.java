@@ -1,4 +1,4 @@
-package com.c2point.tms.util;
+package com.c2point.tms.util_tax;
 
 import java.math.BigDecimal;
 

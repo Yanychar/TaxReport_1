@@ -2,7 +2,7 @@ package com.c2point.tms.web.ui.listeners;
 
 import java.util.EventListener;
 
-import com.c2point.tms.entity.taxreport.Employee;
+import com.c2point.tms.entity_tax.Employee;
 
 public interface EmployeesModelListener extends EventListener {
 

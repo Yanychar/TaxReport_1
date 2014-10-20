@@ -1,4 +1,4 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
 
 import java.util.Date;
 
@@ -12,7 +12,8 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.joda.time.LocalDate;
 
-import com.c2point.tms.util.ValidationHelper;
+import com.c2point.tms.entity.TmsUser;
+import com.c2point.tms.util_tax.ValidationHelper;
 
 @XmlRootElement
 @XmlType(propOrder = { "firstName", "lastName", "phoneNumber", "email", "finnishTunnus", "taxNumber", "birthDate", "taxCountryCode" })
@@ -54,6 +55,21 @@ public class Person {
 		this( firstName, lastName, null, null ); 
 
 	}	
+
+	public Person( TmsUser user ) {
+
+		if ( user != null ) {
+			setId(  user.getId());
+			setFirstName( user.getFirstName());
+			setLastName( user.getLastName());
+			setPhoneNumber( user.getMobile());
+			setEmail( user.getEmail());
+			setFinnishTunnus( user.getKelaCode());
+			setTaxNumber( user.getTaxNumber());
+			//		setTaxCountryCode( "FI" ;
+		}
+		
+	}
 	
 	@XmlTransient
 	public long getId() { return id; }

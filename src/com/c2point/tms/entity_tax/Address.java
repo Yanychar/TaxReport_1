@@ -1,8 +1,9 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import com.c2point.tms.util.CheckValueUtils;
+import com.c2point.tms.entity.Project;
+import com.c2point.tms.util_tax.CheckValueUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -20,6 +21,18 @@ public class Address {
 	public Address() {
 		
 		setCountryCode( "FI" );
+		
+	}
+
+	public Address( Project project ) {
+		
+		setDescription( project != null ? project.getAddress() : "" );
+		
+	}
+
+	public Address( String oneLineAddress ) {
+		
+		setDescription( oneLineAddress );
 		
 	}
 

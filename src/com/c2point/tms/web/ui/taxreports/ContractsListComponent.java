@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.c2point.tms.entity.taxreport.Contract;
-import com.c2point.tms.entity.taxreport.Site;
+import com.c2point.tms.entity_tax.Contract;
+import com.c2point.tms.entity_tax.Site;
 import com.c2point.tms.web.ui.ModType;
 import com.c2point.tms.web.ui.listeners.ContractsModelListener;
 import com.c2point.tms.web.ui.listeners.SitesModelListener;

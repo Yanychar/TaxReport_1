@@ -7,8 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.format.DateTimeFormat;
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.c2point.tms.entity.taxreport.Employee;
-import com.c2point.tms.util.CheckValueUtils;
+import com.c2point.tms.entity_tax.Employee;
+import com.c2point.tms.util_tax.CheckValueUtils;
 import com.c2point.tms.web.ui.ButtonBar;
 import com.c2point.tms.web.ui.listeners.ContractChangedListener;
 import com.c2point.tms.web.ui.listeners.EmployeesModelListener;
@@ -267,6 +267,8 @@ public class EmployeesViewDlg extends Window implements EmployeesModelListener {
 		} else if ( modType == ModType.Edit ) {
 //			this.model.modifySite( this.site );
 		}
+		
+		
 		 
 	}
 	
@@ -454,10 +456,10 @@ public class EmployeesViewDlg extends Window implements EmployeesModelListener {
 								
 						+ "<hr/>"
 						
-						+	( employee.getContract() != null && employee.getContract().getDays() != null
+						+	( employee.getContract() != null 
 								? "Days worked:" + "<b>" + employee.getContract().getDays() + "</b>" + "<br>"
 								: "" )
-						+	( employee.getContract() != null && employee.getContract().getHours() != null
+						+	( employee.getContract() != null 
 								? "Hours worked:" + "<b>" + employee.getContract().getHours() + "</b>" + "<br>"
 								: "" )
 								

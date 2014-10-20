@@ -1,11 +1,11 @@
-package com.c2point.tms.util;
+package com.c2point.tms.web.ui.util;
 
 import java.util.Locale;
 
 import com.c2point.tms.application.Taxreport_1UI;
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.IDType;
-import com.c2point.tms.entity.taxreport.EmploymentContractType;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.EmploymentContractType;
+import com.c2point.tms.entity_tax.IDType;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.UI;

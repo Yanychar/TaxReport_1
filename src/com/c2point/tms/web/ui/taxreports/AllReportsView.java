@@ -5,12 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
 import com.c2point.tms.entity.Organisation;
-import com.c2point.tms.entity.taxreport.TaxReport;
+import com.c2point.tms.entity_tax.TaxReport;
 import com.c2point.tms.web.ui.AbstractMainView;
 import com.c2point.tms.web.ui.listeners.TaxReportModelListener;
 import com.c2point.tms.web.ui.MainView;
 import com.c2point.tms.web.ui.taxreports.FullReportView;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;

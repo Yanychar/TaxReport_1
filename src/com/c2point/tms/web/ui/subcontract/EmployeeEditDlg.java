@@ -4,16 +4,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
-import com.c2point.tms.application.Taxreport_1UI;
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Employee;
-import com.c2point.tms.entity.taxreport.EmployeeCertificateType;
-import com.c2point.tms.entity.taxreport.EmploymentContract;
-import com.c2point.tms.entity.taxreport.EmploymentContractType;
-import com.c2point.tms.util.CheckValueUtils;
-import com.c2point.tms.util.UIhelper;
+import com.c2point.tms.web.application.TaxReportsUI;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Employee;
+import com.c2point.tms.entity_tax.EmployeeCertificateType;
+import com.c2point.tms.entity_tax.EmploymentContract;
+import com.c2point.tms.entity_tax.EmploymentContractType;
+import com.c2point.tms.util_tax.CheckValueUtils;
 import com.c2point.tms.web.ui.ButtonBar;
 import com.c2point.tms.web.ui.ModType;
+import com.c2point.tms.web.ui.util.UIhelper;
+
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.validator.IntegerRangeValidator;
@@ -103,7 +104,7 @@ public class EmployeeEditDlg extends Window {
 		lastNameField.setImmediate( true );
 		
 		birthField = new DateField( "Date of Birth: " );
-		birthField.setLocale( (( Taxreport_1UI )UI.getCurrent()).getSessionData().getLocale());
+		birthField.setLocale((( TaxReportsUI )UI.getCurrent()).getSessionData().getLocale());
 		birthField.setDateFormat( "dd.MM.yyyy" );
 		birthField.setResolution( Resolution.DAY );
 		birthField.setImmediate(true);
@@ -135,13 +136,13 @@ public class EmployeeEditDlg extends Window {
 		
 		
 		startField = new DateField( "Start date on Site: " );
-		startField.setLocale( (( Taxreport_1UI )UI.getCurrent()).getSessionData().getLocale());
+		startField.setLocale((( TaxReportsUI )UI.getCurrent()).getSessionData().getLocale());
 		startField.setDateFormat( "dd.MM.yyyy" );
 		startField.setResolution( Resolution.DAY );
 		startField.setImmediate(true);
 		
 		endField = new DateField( "Estimated end date on Site: " );
-		endField.setLocale( (( Taxreport_1UI )UI.getCurrent()).getSessionData().getLocale());
+		endField.setLocale((( TaxReportsUI )UI.getCurrent()).getSessionData().getLocale());
 		endField.setDateFormat( "dd.MM.yyyy" );
 		endField.setResolution( Resolution.DAY );
 		endField.setImmediate(true);
@@ -160,8 +161,8 @@ public class EmployeeEditDlg extends Window {
 		hoursField.setInputPrompt( "Enter number of hours ..." );
 		hoursField.setNullSettingAllowed( true );
 		hoursField.setNullRepresentation( "0" );
-		hoursField.setConverter( Integer.class );
-		hoursField.addValidator( new IntegerRangeValidator( "Wrong number of hours!", 0, 300 ));
+		hoursField.setConverter( Float.class );
+		hoursField.addValidator( new FloatRangeValidator( "Wrong number of hours!", 0f, 300f ));
 		hoursField.setImmediate( true );
 		
 		tunnusField = new TextField( "Personal ID:");
@@ -372,15 +373,8 @@ public class EmployeeEditDlg extends Window {
 						: null 
 			);
 			
-			daysField.setValue( 
-					this.employee.getContract().getDays() != null 
-						? Integer.toString( this.employee.getContract().getDays())
-						: null
-			);
-			hoursField.setValue( this.employee.getContract().getHours() != null
-					? Integer.toString( this.employee.getContract().getHours())
-					: null
-		);
+			daysField.setValue( Integer.toString( this.employee.getContract().getDays()));
+			hoursField.setValue( Float.toString( this.employee.getContract().getHours()));
 		} else {
 
 			certificateField.setValue( EmployeeCertificateType.Yes );
@@ -462,13 +456,11 @@ public class EmployeeEditDlg extends Window {
 				this.employee.getContract().setDays( Integer.valueOf( daysField.getValue()));
 			} catch ( Exception e ) {
 				logger.error( "Wrong value '" + daysField.getValue() + "' to set as number of Days" );
-				this.employee.getContract().setDays( null );
 			}
 			try {
-				this.employee.getContract().setHours( Integer.valueOf( hoursField.getValue()));
+				this.employee.getContract().setHours( Float.valueOf( hoursField.getValue()));
 			} catch ( Exception e ) {
 				logger.error( "Wrong value '" + daysField.getValue() + "' to set as number of Hours" );
-				this.employee.getContract().setHours( null );
 			}
 
 			if ( this.employee.getTaxAddress() == null ) {

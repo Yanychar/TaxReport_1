@@ -7,9 +7,9 @@ import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.c2point.tms.application.Taxreport_1UI;
-import com.c2point.tms.entity.taxreport.Contract;
-import com.c2point.tms.util.CheckValueUtils;
+import com.c2point.tms.web.application.TaxReportsUI;
+import com.c2point.tms.entity_tax.Contract;
+import com.c2point.tms.util_tax.CheckValueUtils;
 import com.c2point.tms.web.ui.ButtonBar;
 import com.c2point.tms.web.ui.ModType;
 import com.c2point.tms.web.ui.listeners.ContractChangedListener;
@@ -17,6 +17,8 @@ import com.vaadin.data.util.converter.StringToLongConverter;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
@@ -24,8 +26,6 @@ import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 
 public class ContractDetailsEditDlg extends Window {
 
@@ -93,18 +93,20 @@ public class ContractDetailsEditDlg extends Window {
 		vatReverseGroup.setImmediate( true );
 		
 		startDF = new DateField( "Contract start date: " );
-		startDF.setLocale( (( Taxreport_1UI )UI.getCurrent()).getSessionData().getLocale());
+		startDF.setLocale((( TaxReportsUI )UI.getCurrent()).getSessionData().getLocale());
 		startDF.setDateFormat( "dd.MM.yyyy" );
 		startDF.setResolution( Resolution.DAY );
 		startDF.setImmediate(true);
 
 		endDF = new DateField( "Contract end date: " );
-		endDF.setLocale( (( Taxreport_1UI )UI.getCurrent()).getSessionData().getLocale());
+		endDF.setLocale((( TaxReportsUI )UI.getCurrent()).getSessionData().getLocale());
 		endDF.setDateFormat( "dd.MM.yyyy" );
 		endDF.setResolution( Resolution.DAY );
 		endDF.setImmediate( true );
 
 		StringToLongConverter converter = new StringToLongConverter() {
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected NumberFormat getFormat( Locale locale ) {

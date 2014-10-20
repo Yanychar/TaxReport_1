@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
-import com.c2point.tms.entity.taxreport.ReportType;
+import com.c2point.tms.entity_tax.ReportType;
 
 public class InMemoryTaxReportInfoImpl implements TaxReportInfoIF {
 

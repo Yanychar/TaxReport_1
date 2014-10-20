@@ -2,8 +2,8 @@ package com.c2point.tms.entity;
 
 import java.text.Collator;
 import java.util.Comparator;
+
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +19,6 @@ public class TmsUser extends SimplePojo {
 	private String midName;
 	private String lastName;
 	
-	@ManyToOne
 	private Organisation organisation;
 	
 	/**
@@ -158,6 +157,31 @@ public class TmsUser extends SimplePojo {
 			return standardComparator.compare( arg1.getLastAndFirstNames(), arg2.getLastAndFirstNames());
 		}
 
+	}
+
+	public String getAddress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getMobile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getKelaCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getTaxNumber() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

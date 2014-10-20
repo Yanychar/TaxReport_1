@@ -1,6 +1,6 @@
-package com.c2point.tms.util;
+package com.c2point.tms.util_tax;
 
-import com.c2point.tms.entity.taxreport.Address;
+import com.c2point.tms.entity_tax.Address;
 
 
 public class ValidationHelper {

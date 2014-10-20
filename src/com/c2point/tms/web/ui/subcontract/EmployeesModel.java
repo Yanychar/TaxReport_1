@@ -8,8 +8,8 @@ import javax.swing.event.EventListenerList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Employee;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Employee;
 import com.c2point.tms.web.ui.listeners.EmployeesModelListener;
 
 public class EmployeesModel {

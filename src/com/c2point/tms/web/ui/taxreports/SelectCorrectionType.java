@@ -2,8 +2,9 @@ package com.c2point.tms.web.ui.taxreports;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.c2point.tms.entity.taxreport.CorrectionType;
-import com.c2point.tms.entity.taxreport.TaxReport;
+
+import com.c2point.tms.entity_tax.CorrectionType;
+import com.c2point.tms.entity_tax.TaxReport;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;

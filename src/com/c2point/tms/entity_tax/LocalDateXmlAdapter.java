@@ -1,4 +1,4 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

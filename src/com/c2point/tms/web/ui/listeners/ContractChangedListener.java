@@ -2,7 +2,7 @@ package com.c2point.tms.web.ui.listeners;
 
 import java.util.EventListener;
 
-import com.c2point.tms.entity.taxreport.Contract;
+import com.c2point.tms.entity_tax.Contract;
 
 public interface ContractChangedListener extends EventListener {
 

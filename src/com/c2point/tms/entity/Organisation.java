@@ -1,20 +1,20 @@
 package com.c2point.tms.entity;
 
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -22,7 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.c2point.tms.entity.SimplePojo;
-import com.c2point.tms.entity.taxreport.IDType;
+import com.c2point.tms.entity_tax.IDType;
 import com.c2point.tms.util.xml.XMLconverter;
 
 @Entity
@@ -54,8 +54,21 @@ public class Organisation extends SimplePojo {
 	private String 			countryCode;    // Contractor country of tax residence. Mandatory if finnishBusinessID is not set
 	
 
+	@ManyToMany( fetch=FetchType.LAZY )
+	@JoinTable( name="subcontractors", 
+    			joinColumns= 
+    				@JoinColumn(name="main_org_id", referencedColumnName="id"),
+    			inverseJoinColumns=     
+    				@JoinColumn(name="subcontr_id", referencedColumnName="id")
+	)
+	@MapKey( name = "code" )
 	private Map<String, Organisation>	subcontractors;
-	private boolean				subFlag;	// TRUE if this is subcontractor for somebody
+//	private Collection<Organisation>	subcontractors;
+	
+	@ManyToMany(mappedBy="subcontractors",fetch=FetchType.LAZY)	
+	@MapKey( name = "code" )
+	private Map<String, Organisation>	mainorgs;  /// Contractors. The companies who used this company as subcontractor
+
 	
 	public Organisation() {
 		this( "", "" );
@@ -162,41 +175,71 @@ public class Organisation extends SimplePojo {
 	@XmlTransient
 	public Map<String, Organisation> getSubcontractors() { return this.subcontractors; }
 	public void setSubcontractors( Map<String, Organisation> subcontractors ) { this.subcontractors = subcontractors; }
-	
+/*
+	public Collection<Organisation> getSubcontractors() { return this.subcontractors; }
+	public void setSubcontractors( Collection<Organisation> subcontractors ) { this.subcontractors = subcontractors; }
+*/	
 	@XmlTransient
-	public boolean	isSubFlag() { return subFlag; }	// TRUE if this is subcontractor for somebody
-	public boolean	isSubcontractor() { return isSubFlag(); }	// Just more convinient name
-	public void setSubFlag( boolean subFlag ) { this.subFlag = subFlag; }	// TRUE if this is subcontractor for somebody
+	public Map<String, Organisation> getMainorgs() { return mainorgs; }
+	public void setMainorgs( Map<String, Organisation> mainorgs ) { this.mainorgs = mainorgs; }
+
+	
 	
 	/*
 	 * Business methods 	
 	 */
 	
 	// Add Subcontractor
-	public Organisation addSubcontractor( Organisation subContr ) {
+	public boolean addSubcontractor( Organisation subContr ) {
 		
-		Organisation ret = null;
+		boolean ret = false;
 		
 		if ( getSubcontractors() == null ) {
 			setSubcontractors( new HashMap<String, Organisation>());
 		}
 		
-		if ( getSubcontractors().containsKey( subContr.getCode())) {
+		subContr.setMainorg( this );
+		if ( !getSubcontractors().containsKey( subContr.getCode())) {
 			
-			ret = getSubcontractors().get( subContr.getCode());
-			if ( logger.isDebugEnabled()) logger.debug( "Subcontractor '" + subContr.getName() + "' exists already" );
+			getSubcontractors().put( subContr.getCode(), subContr );
+			
+			ret = true; 
+			
+			if ( logger.isDebugEnabled()) logger.debug( "Subcontractor '" + subContr.getName() + "' is added to this MainOrg: " + this.getName());
 			
 		} else {
 
-			subContr.setSubFlag( true );
-			ret = getSubcontractors().put( subContr.getCode(), subContr );
-			
-			if ( logger.isDebugEnabled()) logger.debug( "Subcontractor '" + subContr.getName() + "' is added to Organisation" );
+			if ( logger.isDebugEnabled()) logger.debug( "Subcontractor '" + subContr.getName() + "' exists already for this MainOrg: " + this.getName());
 			
 		}
 		
 		return ret;
 		
+	}
+
+	private boolean setMainorg( Organisation mainOrg ) {
+
+		boolean ret = false;
+		
+		if ( getMainorgs() == null ) {
+			setMainorgs( new HashMap<String, Organisation>());
+		}
+		
+		if ( !getMainorgs().containsKey( mainOrg.getCode())) {
+			
+			getMainorgs().put( mainOrg.getCode(), mainOrg );
+			
+			ret = true; 
+			
+			if ( logger.isDebugEnabled()) logger.debug( "Main Organisation '" + mainOrg.getName() + "' is added to this Subcontractor: " + this.getName());
+			
+		} else {
+
+			if ( logger.isDebugEnabled()) logger.debug( "Main Organisation '" + mainOrg.getName() + "' exists already as MainOrg for this Subcontractor: " + this.getName());
+			
+		}
+		
+		return ret;
 	}
 	
 }

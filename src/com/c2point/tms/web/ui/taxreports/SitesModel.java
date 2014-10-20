@@ -1,20 +1,17 @@
 package com.c2point.tms.web.ui.taxreports;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.event.EventListenerList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.joda.time.LocalDate;
-
-import com.c2point.tms.datalayer.TaxReportsFacade;
+import com.c2point.tms.datalayer.tax.TaxReportsFacade;
 import com.c2point.tms.entity.Organisation;
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Contact;
-import com.c2point.tms.entity.taxreport.Site;
-import com.c2point.tms.entity.taxreport.TaxReport;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
+import com.c2point.tms.entity_tax.Site;
+import com.c2point.tms.entity_tax.TaxReport;
 import com.c2point.tms.web.ui.listeners.SitesModelListener;
 
 public class SitesModel {
@@ -103,7 +100,7 @@ public class SitesModel {
 	}
 	
 	public Collection<Site> getSites() {
-		return this.report.getSites();
+		return this.report.getSites().values();
 	}
 
 	public Site addSite( String siteVeroID, String siteNumber,

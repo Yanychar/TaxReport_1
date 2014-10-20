@@ -5,8 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
 import com.c2point.tms.application.Taxreport_1UI;
-import com.c2point.tms.entity.taxreport.ReportType;
-import com.c2point.tms.entity.taxreport.TaxReport;
+import com.c2point.tms.entity_tax.ReportType;
+import com.c2point.tms.entity_tax.TaxReport;
 import com.c2point.tms.web.ui.AbstractMainView;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.label.ContentMode;

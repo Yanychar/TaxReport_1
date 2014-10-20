@@ -21,10 +21,10 @@ import com.c2point.tms.application.TmsContextListener;
 import com.c2point.tms.datalayer.DataFacade;
 import com.c2point.tms.datalayer.OrganisationFacade;
 import com.c2point.tms.entity.Organisation;
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Contact;
-import com.c2point.tms.entity.taxreport.IDType;
-import com.c2point.tms.entity.taxreport.Person;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
+import com.c2point.tms.entity_tax.IDType;
+import com.c2point.tms.entity_tax.Person;
 
 public class TestDBOrg extends TmsTestCase {
 	

@@ -3,16 +3,15 @@ package com.c2point.tms.web.ui.subcontract;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Contact;
-import com.c2point.tms.entity.taxreport.Contractor;
-import com.c2point.tms.entity.taxreport.IDType;
-import com.c2point.tms.util.CheckValueUtils;
-import com.c2point.tms.util.UIhelper;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
+import com.c2point.tms.entity_tax.Contractor;
+import com.c2point.tms.entity_tax.IDType;
+import com.c2point.tms.util_tax.CheckValueUtils;
 import com.c2point.tms.web.ui.ButtonBar;
 import com.c2point.tms.web.ui.listeners.ContractChangedListener;
+import com.c2point.tms.web.ui.util.UIhelper;
 import com.c2point.tms.web.ui.ModType;
-
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;

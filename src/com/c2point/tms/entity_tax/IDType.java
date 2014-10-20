@@ -1,4 +1,4 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
 
 public enum IDType {
 	Vat( 1 ), TReg( 2 ), Tin( 3 ), Person( 4 );

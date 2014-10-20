@@ -29,7 +29,7 @@ public class Taxreport_1UI extends UI {
 	protected void init(VaadinRequest request) {
 
 		sessionData = new SessionData();
-		
+
 		TestData.initOrganisationAndUser();
 		
 		if ( mainView == null ) {
@@ -46,6 +46,9 @@ public class Taxreport_1UI extends UI {
 	public SessionData getSessionData() {
 		if ( sessionData == null ) {
 			sessionData = new SessionData();
+			
+			TestData.initOrganisationAndUser();
+			
 		}
 
 		return sessionData;

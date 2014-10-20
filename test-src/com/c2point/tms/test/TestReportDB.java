@@ -1,7 +1,5 @@
 package com.c2point.tms.test;
 
-import javax.xml.bind.JAXBException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
@@ -10,16 +8,24 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.c2point.tms.util.xml.*;
 import com.c2point.tms.datalayer.OrganisationFacade;
-import com.c2point.tms.datalayer.TaxReportsFacade;
+import com.c2point.tms.datalayer.tax.TaxReportsFacade;
 import com.c2point.tms.entity.Organisation;
-import com.c2point.tms.entity.taxreport.*;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
+import com.c2point.tms.entity_tax.Contract;
+import com.c2point.tms.entity_tax.Contractor;
+import com.c2point.tms.entity_tax.IDType;
+import com.c2point.tms.entity_tax.Person;
+import com.c2point.tms.entity_tax.ReportType;
+import com.c2point.tms.entity_tax.Site;
+import com.c2point.tms.entity_tax.TaxReport;
 import com.c2point.tms.testing.TestData;
 
 
 public class TestReportDB extends TmsTestCase {
 	
+	@SuppressWarnings("unused")
 	private static Logger logger = LogManager.getLogger( TestReportDB.class.getName());
 
 	@Before

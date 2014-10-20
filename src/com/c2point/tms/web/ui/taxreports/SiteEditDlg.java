@@ -3,13 +3,13 @@ package com.c2point.tms.web.ui.taxreports;
 import java.util.Locale;
 
 import com.c2point.tms.application.Taxreport_1UI;
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Contact;
-import com.c2point.tms.entity.taxreport.Site;
-import com.c2point.tms.util.CheckValueUtils;
-import com.c2point.tms.util.UIhelper;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
+import com.c2point.tms.entity_tax.Site;
+import com.c2point.tms.util_tax.CheckValueUtils;
 import com.c2point.tms.web.ui.ButtonBar;
 import com.c2point.tms.web.ui.ModType;
+import com.c2point.tms.web.ui.util.UIhelper;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.label.ContentMode;

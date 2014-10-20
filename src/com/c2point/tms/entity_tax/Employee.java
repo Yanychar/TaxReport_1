@@ -1,9 +1,9 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
+
+import com.c2point.tms.entity.TaskReport;
+import com.c2point.tms.entity.TmsUser;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.apache.commons.lang.math.RandomUtils;
 
 @XmlRootElement
 public class Employee extends Person {
@@ -55,6 +55,20 @@ public class Employee extends Person {
 		
 	}
 
+	public Employee( TmsUser user ) {
+		
+		this( user.getFirstName(), user.getLastName());
+		
+		setFinAddress( new Address( user.getAddress()));
+		
+		setId( user.getId());
+		setPhoneNumber( user.getMobile());
+		setEmail( user.getEmail());
+		setFinnishTunnus( user.getKelaCode());
+		setTaxNumber( user.getTaxNumber());
+
+	}
+
 	public Address getFinAddress() { return finAddress; }
 	public void setFinAddress( Address finAddress ) { this.finAddress = finAddress; }
 	
@@ -74,6 +88,20 @@ public class Employee extends Person {
 		return true;
 	}
 	
+	public boolean handleTaskReport( TaskReport taskReport ) {
+		
+		// Create EmploymentContract if necessary
+		if ( getContract() == null ) {
+			
+			setContract( new EmploymentContract( taskReport.getUser()));
+			
+		}
+		
+		getContract().handleTaskReport( taskReport );
+		
+		
+		return true;
+	}
 	
 	
 }

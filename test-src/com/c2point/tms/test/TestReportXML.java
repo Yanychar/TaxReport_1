@@ -12,6 +12,15 @@ import static org.junit.Assert.*;
 
 import com.c2point.tms.util.xml.*;
 import com.c2point.tms.entity.taxreport.*;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
+import com.c2point.tms.entity_tax.Contract;
+import com.c2point.tms.entity_tax.Contractor;
+import com.c2point.tms.entity_tax.IDType;
+import com.c2point.tms.entity_tax.Person;
+import com.c2point.tms.entity_tax.ReportType;
+import com.c2point.tms.entity_tax.Site;
+import com.c2point.tms.entity_tax.TaxReport;
 
 
 public class TestReportXML extends TmsTestCase {

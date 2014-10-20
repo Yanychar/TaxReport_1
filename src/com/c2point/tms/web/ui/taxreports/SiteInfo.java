@@ -3,8 +3,8 @@ package com.c2point.tms.web.ui.taxreports;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.c2point.tms.entity.taxreport.Site;
-import com.c2point.tms.util.CheckValueUtils;
+import com.c2point.tms.entity_tax.Site;
+import com.c2point.tms.util_tax.CheckValueUtils;
 import com.c2point.tms.web.ui.listeners.SitesModelListener;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CustomComponent;

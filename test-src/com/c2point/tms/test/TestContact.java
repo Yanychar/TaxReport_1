@@ -11,8 +11,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.c2point.tms.util.xml.*;
-import com.c2point.tms.entity.taxreport.Address;
-import com.c2point.tms.entity.taxreport.Contact;
+import com.c2point.tms.entity_tax.Address;
+import com.c2point.tms.entity_tax.Contact;
 
 public class TestContact extends TmsTestCase {
 	

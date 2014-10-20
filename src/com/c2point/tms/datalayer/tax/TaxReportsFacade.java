@@ -1,4 +1,4 @@
-package com.c2point.tms.datalayer;
+package com.c2point.tms.datalayer.tax;
 
 import java.util.List;
 
@@ -9,8 +9,9 @@ import javax.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.c2point.tms.datalayer.DataFacade;
 import com.c2point.tms.entity.Organisation;
-import com.c2point.tms.entity.taxreport.TaxReport;
+import com.c2point.tms.entity_tax.TaxReport;
 
 public class TaxReportsFacade {
 

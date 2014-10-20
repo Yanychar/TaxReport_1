@@ -1,10 +1,13 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
+
 
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.c2point.tms.entity.Organisation;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.joda.time.LocalDate;
@@ -41,9 +44,6 @@ public class Contract {
 		}
 	};
 		
-	private Contractor		contractor;
-	
-	
 	//	Contract Details
 
 	private ContractType	contractType;
@@ -67,11 +67,10 @@ public class Contract {
 		setVatReverse( true );
 	}
 
-	public Contract( Contractor contractor, ContractType contractType ) {
+	public Contract( ContractType contractType ) {
 		
 		this();
 		
-		setContractor( contractor );
 		setContractType( contractType );
 
 	}
@@ -80,9 +79,6 @@ public class Contract {
 	public long getId() { return id; }
 	public void setId( long id ) { this.id = id; }
 	
-	public Contractor getContractor() { return contractor; }
-	public void setContractor( Contractor contractor ) { this.contractor = contractor; }
-
 	@XmlElement( name = "ctype" )
 	public ContractType getContractType() { return contractType; }
 	public void setContractType(ContractType contractType) { this.contractType = contractType; }

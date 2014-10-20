@@ -10,13 +10,13 @@ import org.joda.time.LocalDate;
 import com.c2point.tms.application.Taxreport_1UI;
 import com.c2point.tms.entity.Organisation;
 import com.c2point.tms.entity.TmsUser;
-import com.c2point.tms.entity.taxreport.IDType;
-import com.c2point.tms.entity.taxreport.ReportStatusType;
-import com.c2point.tms.entity.taxreport.ReportType;
-import com.c2point.tms.entity.taxreport.TaxReport;
+import com.c2point.tms.entity_tax.IDType;
+import com.c2point.tms.entity_tax.ReportStatusType;
+import com.c2point.tms.entity_tax.ReportType;
+import com.c2point.tms.entity_tax.TaxReport;
 import com.c2point.tms.datalayer.DataFacade;
 import com.c2point.tms.datalayer.OrganisationFacade;
-import com.c2point.tms.datalayer.TaxReportsFacade;
+import com.c2point.tms.datalayer.tax.TaxReportsFacade;
 import com.vaadin.ui.UI;
 
 public class TestData {

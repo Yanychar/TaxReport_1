@@ -1,4 +1,7 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
+
+import com.c2point.tms.entity.Project;
+import com.c2point.tms.entity.TmsUser;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -42,7 +45,25 @@ public class Contact extends Person {
 		setAddress( address );
 
 	}
-			
+	
+	public Contact( TmsUser user ) {
+
+		super( user );
+		
+		Address addr = new Address();
+		addr.setDescription( user.getAddress());
+		setAddress( addr );
+		
+	}
+
+	public Contact( Project project ) {
+		
+		this( project != null ? project.getProjectManager() : ( TmsUser )null );
+		
+	}
+	
+	
+	
 	public Address getAddress() { return address; }
 	public void setAddress( Address address ) { this.address = address; }
 

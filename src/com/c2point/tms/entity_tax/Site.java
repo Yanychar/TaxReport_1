@@ -1,7 +1,9 @@
-package com.c2point.tms.entity.taxreport;
+package com.c2point.tms.entity_tax;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -9,7 +11,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.lang.math.RandomUtils;
 
-import com.c2point.tms.util.ValidationHelper;
+import com.c2point.tms.entity.Project;
+import com.c2point.tms.util_tax.ValidationHelper;
 
 public class Site {
 
@@ -23,11 +26,25 @@ public class Site {
 	private Address		address;
 	private Contact		contact;
 	
-	private List<Contract>	contracts = new ArrayList<Contract>();
+	private Map<Long, Contractor>	contractors = new HashMap<Long, Contractor>();
 	
 	public Site() {
 		
 		setId( RandomUtils.nextLong());
+		
+	}
+	
+	public Site( Project project ) {
+		
+		setId( project.getId());
+		setSiteNumber( project.getCode());
+		setName( project.getName());
+		
+		// Adress is Project address
+		setAddress( new Address( project ));
+		
+		// Contact is Project Manager
+		setContact( new Contact( project ));
 		
 	}
 	
@@ -50,26 +67,58 @@ public class Site {
 	public Contact getContact() { return contact; }
 	public void setContact( Contact contact ) { this.contact = contact; }
 
-	@XmlElement( name = "contract" )
-	@XmlElementWrapper( name="all_contracts" )
-	public List<Contract> getContracts() { return contracts; }
-	public void setContracts( List<Contract> contracts ) { this.contracts = contracts; }
+	@XmlElement( name = "contractor" )
+	@XmlElementWrapper( name="all_contractors" )
+	public Map<Long, Contractor> getContractors() { return contractors; }
+	public void setContracts( Map<Long, Contractor> contractors ) { this.contractors = contractors; }
 	
 	/*
 	 * Business Methods
 	 */
 	
-	public boolean addContract( Contract contract ) {
+	public boolean addContractor( Contractor contractor ) {
 		
-		if ( contract != null ) {
+		if ( contractor != null ) {
 			
-			return getContracts().add( contract );
+			getContractors().put( contractor.getId(), contractor );
+			
+			return true;
 			
 		}
 		
 		return false;
 	}
 
+	public boolean deleteContractor( Contractor contractor ) {
+		
+		if ( contractor != null ) {
+			
+			getContractors().remove( contractor.getId());
+			
+			return true;
+			
+		}
+		
+		return false;
+	}
+
+	public Contractor getContractor( long id ) {
+		
+		Contractor retContractor = null;
+		
+		if ( getContractors() != null ) {
+			
+			if ( getContractors().containsKey( id )) {
+
+				retContractor = getContractors().get( id );
+				
+			}
+			
+		}
+		
+		return retContractor;
+	}
+	
 	public boolean isValid() {
 		
 		boolean validity = 

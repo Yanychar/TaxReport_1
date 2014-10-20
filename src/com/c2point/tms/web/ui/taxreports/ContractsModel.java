@@ -7,9 +7,9 @@ import javax.swing.event.EventListenerList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.c2point.tms.entity.taxreport.Contract;
-import com.c2point.tms.entity.taxreport.Contractor;
-import com.c2point.tms.entity.taxreport.Site;
+import com.c2point.tms.entity_tax.Contract;
+import com.c2point.tms.entity_tax.Contractor;
+import com.c2point.tms.entity_tax.Site;
 import com.c2point.tms.web.ui.listeners.ContractsModelListener;
 
 public class ContractsModel {

@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.LocalDate;
 
 import com.c2point.tms.datalayer.tax.TaxReportInfoIF;
-import com.c2point.tms.entity.taxreport.ReportType;
+import com.c2point.tms.entity_tax.ReportType;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
